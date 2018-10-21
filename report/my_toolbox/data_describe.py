@@ -66,6 +66,33 @@ def data_type (describe, default_type_name, data_type_dict):
         describe.loc[data_type_dict[type_name],'type'] = type_name
     
     
+
+    
+def quartile_level_select (df, tar_list, n=4, beside_num=None):
+    '''
+    ----------------------------------
+    To count quartile of dataframe's columns beside 'beside_num'
+    thew result that this funtion return will be a list include many list.
+    the sub lists are quartile info of each item in target list.
+    ----------------------------------
+    df: The pandas dataframe 
+    tar_list: A list of the columns of df which are going to count
+    n: How many levels are going to count quartile
+            Example: n=4 -> return a list [0%, 25%, 50%, 75%, 100%]
+    beside_num: default is None that means normal way to count quartile. 
+                If put a number here that means to count quartile beside this number.
+    '''
+    N = 100/n
+    Q=[]
+    for item in tar_list:
+        persentage = 0
+        q = [0 for i in range(n+1)]
+        A = df[df[item]!=beside_num][item]
+        for i in range(n):
+            persentage += N
+            q[i+1] = np.percentile(A.values, persentage)
+        Q.append(q)  
+    return Q
     
     
 # if __name__ == '__main__':

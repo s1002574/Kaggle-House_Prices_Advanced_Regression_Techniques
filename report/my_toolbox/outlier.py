@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 here provide the way to deal with data in numeric type outlier.
 ----------------------------------

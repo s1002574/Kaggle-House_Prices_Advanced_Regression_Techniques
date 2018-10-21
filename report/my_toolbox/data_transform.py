@@ -30,9 +30,9 @@ def order_cat_to_num(df, tar_list, map_list):
     for tar in tar_list:
         df[tar] = df[tar].map(map_dict) 
 
-        
-        
-        
+         
+            
+            
         
 # 空值為一類別
 
@@ -146,7 +146,34 @@ def drop_col(df_list, tar_list):
     for df in df_list:
         df.drop(tar_list, inplace=True, axis=1)
         
+
         
+        
+# 將數據依等級轉化為整數
+        
+def persentage_level_transform (df, tar_list, quartile_list):
+    '''
+    ----------------------------------
+    To transform data in persentage level. 
+    Usually we use it to deal with the data which has many specific number, like '0'
+    For example, we can transform the list [0,0,0,0,199,0,0,15896,0,0,0,22587,35,0,999999]
+    into [0,0,0,0,1,0,0,2,0,0,0,3,1,0,4]. That can control some problem that may cause by outlier.
+    ----------------------------------
+    df: The pandas dataframe 
+    tar_list: A list of the columns of df which are going to count
+    quartile_list: [[], [], ...]
+    This list can be made by 'data_describe.quartile_level_select(df, tar_list, n, beside_num)'.
+    '''
+    for num in range(len(tar_list)):
+        col = tar_list[num]
+        col_quartile_list = quartile_list[num]
+        L = len(col_quartile_list)
+        
+        for i in range(L-1):
+            df[col]=np.where(
+                (df[col] >= col_quartile_list[i]) & (df[col] <= col_quartile_list[i+1]),
+                i, df[col])
+        df[col]=np.where(df[col] >= L, L-1, df[col])    
 
 # if __name__ == '__main__':
 

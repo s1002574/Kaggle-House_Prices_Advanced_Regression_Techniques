@@ -31,7 +31,7 @@ def multicollinearity_prevent(df, y_lab, corr_method = 'spearman', level=0.7):
 
     for row in left_col:
         for col in  left_col:
-            if corr_table[row][col] > level:
+            if abs(corr_table[row][col]) > level:
                 drop_list.append([row, col])
 
     drop_col = []
@@ -44,8 +44,8 @@ def multicollinearity_prevent(df, y_lab, corr_method = 'spearman', level=0.7):
             if corr_A > corr_B: drop_col.append(pair_list[0])
             else: drop_col.append(pair_list[1])
 
-    return df.drop(columns=set(drop_col))
-
+#     return df.drop(columns=set(drop_col))
+    return set(drop_col)
 
 
 
